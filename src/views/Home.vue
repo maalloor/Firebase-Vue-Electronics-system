@@ -40,6 +40,9 @@
         <th scope="col">Reviewer Name</th>
         <th scope="col">Overall</th>
         <th scope="col">Text</th>
+        <th scope="col">ID</th>
+        <th scope="col">Delete</th>
+
       </tr>
     </thead>
     <tbody>
@@ -49,6 +52,12 @@
         <td>{{item.reviewerName}}</td>
         <td>{{item.overall}}</td>
         <td>{{item.commentText}}</td>
+        <td>{{item.id}}</td>
+        <td>
+          <button @click.prevent="deleteData(item.id)"
+            class="btn btn-danger">Delete
+          </button>
+        </td>
       </tr>
     </tbody>
     </table>
@@ -58,7 +67,7 @@
 <script>
 // @ is an alias to /src
 import Navbar from '@/components/Navbar.vue'
-import { collection, getDocs, addDoc } from 'firebase/firestore/lite';
+import { collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore/lite';
 import { db } from "../main";
 
 export default {
@@ -106,6 +115,10 @@ export default {
       .catch(function(error) {
         console.error("Error al añadir el documento: ", error);
       });
+    },
+    async deleteData (id)
+    {
+      await deleteDoc(doc(db, "electronics", id ));
     }
   },
   mounted()
